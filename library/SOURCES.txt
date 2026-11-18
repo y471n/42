@@ -1,0 +1,22 @@
+Source: https://www.earlymoderntexts.com/
+Rights and permitted uses: https://www.earlymoderntexts.com/faqs/rights
+Citation guidance: https://www.earlymoderntexts.com/faqs/citation
+
+These are edited, modernized versions copyrighted by Jonathan Bennett.
+They may be downloaded for personal use, but commercial use is not permitted.
+See the rights page before distributing or using them.
+
+degrouchy1798.pdf - Sophie de Grouchy, Letters on Sympathy
+hume1739book2.pdf - David Hume, A Treatise of Human Nature, Book II: The Passions
+james.pdf - William James, The Will to Believe
+kant1785.pdf - Immanuel Kant, Groundwork for the Metaphysic of Morals
+mill1859.pdf - John Stuart Mill, Liberty
+mill1863.pdf - John Stuart Mill, Utilitarianism
+mill1869.pdf - John Stuart Mill, The Subjection of Women
+montaigne1580book1.pdf - Michel de Montaigne, Essays, Book I
+schopenhauer1818.pdf - Arthur Schopenhauer, The World as Will and Presentation
+spinoza1665.pdf - Baruch Spinoza, Ethics
+wollstonecraft1792.pdf - Mary Wollstonecraft, A Vindication of the Rights of Woman
+
+Each PDF was downloaded from:
+https://www.earlymoderntexts.com/assets/pdfs/<filename>

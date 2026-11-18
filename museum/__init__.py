@@ -1,1 +1,1 @@
-"""The Museum of 42."""
+"""The Museum of Unchosen Lives."""

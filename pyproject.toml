@@ -1,8 +1,6 @@
 [project]
-name = "42"
+name = "unchosen-lives"
 version = "0.1.0"
-description = "Philosophical local AI"
-readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "chromadb>=1.5.9",
@@ -21,4 +19,3 @@ dependencies = [
 dev = [
     "httpx>=0.28.1",
 ]
-

@@ -1,20 +1,8 @@
-# Python-generated files
-__pycache__/
-*.py[oc]
-build/
-dist/
-wheels/
-*.egg-info
-
-# Virtual environments
-.venv
+.venv/
 .env
-
-# Data and exhibits directories
 .data/
 exhibits/
-
-
-# Frontend build artifacts
+__pycache__/
+*.py[cod]
 frontend/node_modules/
 frontend/dist/
