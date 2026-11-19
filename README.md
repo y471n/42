@@ -17,13 +17,17 @@ possible futures, and saves a reviewed exhibit for reflection.
 > **AI-generated voices are interpretations, not quotations.** The future
 > letters are fictional narratives and not predictions or professional advice.
 
+## Demo
+
 <p align="center">
-  <img src="docs/interface.png" alt="42 AI philosophy studio interface" width="900">
+  <img src="docs/demo.gif" alt="45-second preview of the 42 demo" width="900">
+</p>
+
+<p align="center">
+  <a href="docs/demo.mp4"><strong>Watch the full 4:24 demo video</strong></a>
 </p>
 
 ---
-
-<!-- Demo: add docs/demo.gif or assets/demo.gif here after recording. -->
 
 ## Why 42 stands out
 
@@ -268,14 +272,8 @@ agentic product should combine four things:
 3. Persistent state and human checkpoints
 4. Sources and limitations that users can inspect
 
-## Demo
-
 <p align="center">
-  <img src="docs/demo.gif" alt="42 interface demo" width="900">
-</p>
-
-<p align="center">
-  <a href="docs/demo.mp4"><strong>Watch the full 3:37 demo video</strong></a>
+  <img src="docs/interface.png" alt="42 AI philosophy studio interface" width="900">
 </p>
 
 ## License
