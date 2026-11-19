@@ -1,0 +1,1 @@
+run_id,date,question_id,retrieval_relevance,citation_accuracy,interpretation_quality,latency_seconds,failure,reviewer,notes

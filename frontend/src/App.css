@@ -431,12 +431,12 @@ h2 em {
   margin-top: 5px;
   font: 14px var(--serif);
 }
-.museum-ribbon {
+.fortytwo-ribbon {
   overflow: hidden;
   background: var(--ink);
   color: #fff4d8;
 }
-.museum-ribbon div {
+.fortytwo-ribbon div {
   width: max-content;
   padding: 11px 0;
   font-size: 10px;
@@ -444,7 +444,7 @@ h2 em {
   letter-spacing: 0.16em;
   word-spacing: 0.18em;
 }
-.museum-ribbon span {
+.fortytwo-ribbon span {
   padding: 0 25px;
   color: #d8e577;
   font-size: 14px;
