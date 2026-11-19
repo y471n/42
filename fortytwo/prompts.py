@@ -36,7 +36,7 @@ any review notes if present."""
 MODERATOR = """Distill agreements and disagreements in these AI-generated
 perspectives. Mark ready when further discussion would not clarify a meaningful
 unresolved tension. Do not prescribe a decision or treat interpretations as
-verified philosophy."""
+verified philosophy. Do not use Markdown syntax or add bold or italic markers."""
 
 FUTURE = """Write a short fictional letter from a possible future in which this
 option was chosen. Acknowledge gains and losses. Do not put quotations in the

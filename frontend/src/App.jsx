@@ -85,6 +85,23 @@ function Arrow({ diagonal = false }) {
   );
 }
 
+function ModerationText({ text = "" }) {
+  const parts = text.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/g);
+  return (
+    <>
+      {parts.map((part, index) => {
+        if (part.startsWith("**") && part.endsWith("**")) {
+          return <strong key={`${part}-${index}`}>{part.slice(2, -2)}</strong>;
+        }
+        if (part.startsWith("*") && part.endsWith("*")) {
+          return <em key={`${part}-${index}`}>{part.slice(1, -1)}</em>;
+        }
+        return <span key={`${part}-${index}`}>{part}</span>;
+      })}
+    </>
+  );
+}
+
 function ThinkerPortrait({ name, compact = false }) {
   const portrait = philosopherPortraits[name];
   return (
@@ -709,10 +726,12 @@ function LiveRoundtable({ events, running }) {
                     <small>THE TABLE’S REFLECTION</small>
                   </div>
                   <p>
-                    {detail(
-                      event,
-                      event.node === "moderator" ? "Distillation" : "Reason",
-                    )}
+                    <ModerationText text={
+                      detail(
+                        event,
+                        event.node === "moderator" ? "Distillation" : "Reason",
+                      ) || ""
+                    } />
                   </p>
                   {detail(event, "Decision") && (
                     <small>{detail(event, "Decision")}</small>
@@ -935,6 +954,46 @@ function Exhibit({ session, onReview, onFollowUp, onNew, busy, error }) {
         </div>
       </div>
 
+      {session.status === "review" && (
+        <section className="human-review-dock" aria-label="Human review">
+          <div className="human-review-dock-heading">
+            <span className="section-index light-index">HUMAN REVIEW / LIVE</span>
+            <h2>
+              What does this <em>conversation</em> leave out?
+            </h2>
+          </div>
+          <div className="human-review-dock-actions">
+            <label htmlFor="human-review-notes">Add a note before approving or revising</label>
+            <textarea
+              id="human-review-notes"
+              rows={3}
+              maxLength={4000}
+              value={notes}
+              onChange={(event) => setNotes(event.target.value)}
+              placeholder="Challenge an assumption, ask for a wider perspective, or request revision…"
+            />
+            <div className="human-review-buttons">
+              <button
+                className="cream-button"
+                type="button"
+                disabled={busy}
+                onClick={() => onReview("approve", "")}
+              >
+                Approve <Arrow />
+              </button>
+              <button
+                className="outline-button"
+                type="button"
+                disabled={busy || !notes.trim()}
+                onClick={() => onReview("revise", notes.trim())}
+              >
+                Revise with my note <Arrow />
+              </button>
+            </div>
+          </div>
+        </section>
+      )}
+
       <TraceInspector trace={session.trace || []} />
 
       {hasFutures && (
@@ -1008,11 +1067,11 @@ function Exhibit({ session, onReview, onFollowUp, onNew, busy, error }) {
                     key={`${turn.thinker}-${i}`}
                   >
                     <div className="roundtable-seat-person">
-                      <ThinkerPortrait name={turn.thinker} />
                       <div className="roundtable-speaker-label">
                         <strong>{turn.thinker}</strong>
                         <small>SEAT {String(i + 1).padStart(2, "0")}</small>
                       </div>
+                      <ThinkerPortrait name={turn.thinker} />
                     </div>
                     <p>{turn.text}</p>
                     {turn.citations?.map((citation, j) => (
@@ -1035,7 +1094,7 @@ function Exhibit({ session, onReview, onFollowUp, onNew, busy, error }) {
                     <span className="section-index light-index">
                       THE MODERATOR’S REFLECTION
                     </span>
-                    <p>{message.distillation}</p>
+                    <p><ModerationText text={message.distillation} /></p>
                   </div>
                 )}
               </div>
@@ -1049,11 +1108,11 @@ function Exhibit({ session, onReview, onFollowUp, onNew, busy, error }) {
                 key={`${turn.thinker}-${turn.round}-${index}`}
               >
                 <div className="roundtable-seat-person">
-                  <ThinkerPortrait name={turn.thinker} />
                   <div className="roundtable-speaker-label">
                     <strong>{turn.thinker}</strong>
                     <small>SEAT {String(index + 1).padStart(2, "0")}</small>
                   </div>
+                  <ThinkerPortrait name={turn.thinker} />
                 </div>
                 <p>{turn.text}</p>
                 {turn.citations?.map((citation, i) => (
@@ -1082,7 +1141,7 @@ function Exhibit({ session, onReview, onFollowUp, onNew, busy, error }) {
             <span className="section-index light-index">
               THE MODERATOR’S REFLECTION
             </span>
-            <p>{session.distillation}</p>
+            <p><ModerationText text={session.distillation} /></p>
           </div>
         )}
         <form
