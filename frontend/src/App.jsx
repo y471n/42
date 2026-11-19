@@ -2,6 +2,17 @@ import { useEffect, useState } from "react";
 import "./App.css";
 
 const SESSION_KEY = "42-session";
+const philosopherPortraits = {
+  "Arthur Schopenhauer": "/philosophers/schopenhauer.jpg",
+  "Baruch Spinoza": "/philosophers/spinoza.jpg",
+  "David Hume": "/philosophers/hume.jpg",
+  "Immanuel Kant": "/philosophers/kant.jpg",
+  "John Stuart Mill": "/philosophers/mill.jpg",
+  "Mary Wollstonecraft": "/philosophers/wollstonecraft.jpg",
+  "Michel de Montaigne": "/philosophers/montaigne.jpg",
+  "Sophie de Grouchy": "/philosophers/grouchy.jpg",
+  "William James": "/philosophers/james.jpg",
+};
 const traceNodes = [
   {
     group: "select_topic",
@@ -71,6 +82,31 @@ function Arrow({ diagonal = false }) {
     <span aria-hidden="true" className="button-arrow">
       {diagonal ? "↗" : "→"}
     </span>
+  );
+}
+
+function ThinkerPortrait({ name, compact = false }) {
+  const portrait = philosopherPortraits[name];
+  return (
+    <div
+      className={`thinker-portrait ${compact ? "thinker-portrait-compact" : ""}`}
+      aria-label={portrait ? `Portrait of ${name}` : undefined}
+      role={portrait ? "img" : undefined}
+    >
+      <span className="thinker-fallback" aria-hidden="true">
+        <span>✳</span>
+      </span>
+      {portrait && (
+        <img
+          src={portrait}
+          alt=""
+          loading="lazy"
+          onError={(event) => {
+            event.currentTarget.style.display = "none";
+          }}
+        />
+      )}
+    </div>
   );
 }
 
@@ -405,6 +441,62 @@ function Clarify({ session, busy, error, onClarify }) {
   );
 }
 
+function ProgressOrbit({ session, events }) {
+  const steps = [
+    { number: "01", name: "Question", groups: ["understand_paths", "clarify_paths", "select_topic"] },
+    { number: "02", name: "Research", groups: ["research", "assess_follow_up"] },
+    { number: "03", name: "Roundtable", groups: ["roundtable"] },
+    { number: "04", name: "Futures", groups: ["future_a", "future_b"] },
+    { number: "05", name: "Critique", groups: ["critic", "revise"] },
+    { number: "06", name: "Exhibit", groups: ["curate", "review"] },
+  ];
+  const completed = steps.map((step) =>
+    step.groups.some((group) => events.some((event) => event.group === group)),
+  );
+  let active = completed.findIndex((done) => !done);
+  if (active < 0) active = steps.length - 1;
+  if (active > 3 && events.some((event) =>
+    event.node === "understand_paths" &&
+    event.details.some((detail) =>
+      detail.label === "Mode" && detail.value === "Open discussion",
+    ),
+  )) active = 5;
+
+  return (
+    <section className="progress-orbit" aria-label="Conversation progress">
+      <div className="orbit-visual" aria-hidden="true">
+        <div className="orbit-ring orbit-ring-one" />
+        <div className="orbit-ring orbit-ring-two" />
+        <div className="orbit-core">
+          <span>{String(active + 1).padStart(2, "0")}</span>
+          <strong>of 06</strong>
+        </div>
+        <span className="orbit-moon" />
+      </div>
+      <div className="orbit-status" role="status" aria-live="polite">
+        <span>NOW THINKING / STEP {String(active + 1).padStart(2, "0")}</span>
+        <strong>{session.stage || "Preparing your question"}</strong>
+      </div>
+      <ol className="progress-steps">
+        {steps.map((step, index) => {
+          const state = index < active
+            ? "complete"
+            : index === active
+              ? "active"
+              : "waiting";
+          return (
+            <li className={`progress-step progress-step-${state}`} key={step.number}>
+              <span>{step.number}</span>
+              <i aria-hidden="true" />
+              <strong>{step.name}</strong>
+            </li>
+          );
+        })}
+      </ol>
+    </section>
+  );
+}
+
 function Loading({ session, error, onRetry }) {
   const trace = session.trace || [];
   const events = trace.map((event, index) => ({ ...event, index }));
@@ -422,10 +514,7 @@ function Loading({ session, error, onRetry }) {
           Your local model is thinking. This can take several minutes; you can
           return to this tab while it works.
         </p>
-        <div className="live-label" role="status">
-          <span className="live-dot" />{" "}
-          {session.stage || "Preparing your question"}
-        </div>
+        <ProgressOrbit session={session} events={events} />
         {error && (
           <div className="error-actions">
             <p className="error-message" role="alert">
@@ -606,16 +695,12 @@ function LiveRoundtable({ events, running }) {
               className={`live-turn ${event.node === "moderator" ? "live-moderator" : ""}`}
               key={event.index}
             >
-              <div className="live-turn-meta">
-                <span>{event.title}</span>
-                <span>
-                  {event.node === "moderator"
-                    ? "MODERATOR"
-                    : event.node === "skip"
-                      ? "NOTICE"
-                      : "INTERPRETATION"}
-                </span>
-              </div>
+              {event.node === "philosopher" && (
+                <ThinkerPortrait
+                  name={detail(event, "Thinker") || event.title.replace(/^.*· /, "")}
+                  compact
+                />
+              )}
               <p>
                 {detail(
                   event,
@@ -893,10 +978,7 @@ function Exhibit({ session, onReview, onFollowUp, onNew, busy, error }) {
                 )}
                 {message.turns?.map((turn, i) => (
                   <article className="turn" key={`${turn.thinker}-${i}`}>
-                    <div className="turn-meta">
-                      <span>{turn.thinker}</span>
-                      <span>AN INTERPRETATION</span>
-                    </div>
+                    <ThinkerPortrait name={turn.thinker} />
                     <p>{turn.text}</p>
                     {turn.citations?.map((citation, j) => (
                       <Citation
@@ -931,12 +1013,7 @@ function Exhibit({ session, onReview, onFollowUp, onNew, busy, error }) {
                 className="turn"
                 key={`${turn.thinker}-${turn.round}-${index}`}
               >
-                <div className="turn-meta">
-                  <span>
-                    0{turn.round} / {turn.thinker}
-                  </span>
-                  <span>AN INTERPRETATION</span>
-                </div>
+                <ThinkerPortrait name={turn.thinker} />
                 <p>{turn.text}</p>
                 {turn.citations?.map((citation, i) => (
                   <Citation
