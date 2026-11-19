@@ -931,8 +931,15 @@ function Exhibit({ session, onReview, onFollowUp, onNew, busy, error }) {
   const hasFutures = Boolean(session.future_a && session.future_b);
 
   return (
-    <main className="exhibit-page wrap">
+    <main
+      className={`exhibit-page wrap ${session.status === "review" ? "exhibit-page-reviewing" : ""}`}
+    >
       <div className="exhibit-heading">
+        {(session.status === "review" || session.status === "approved") && (
+          <span className="exhibit-brand-mark" aria-label="42">
+            42
+          </span>
+        )}
         <span className="section-index">
           YOUR PERSONAL EXHIBIT /{" "}
           {session.status === "approved" ? "SAVED" : "READY FOR REVIEW"}
@@ -1302,9 +1309,43 @@ function Exhibit({ session, onReview, onFollowUp, onNew, busy, error }) {
         </div>
       </section>
       {session.status === "review" && (
-        <span className="exhibit-brand-mark" aria-label="42">
-          42
-        </span>
+        <section className="human-review-dock" aria-label="Human review">
+          <div className="human-review-dock-heading">
+            <span className="section-index light-index">HUMAN REVIEW / LIVE</span>
+            <h2>
+              What does this <em>conversation</em> leave out?
+            </h2>
+          </div>
+          <div className="human-review-dock-actions">
+            <label htmlFor="human-review-notes">Add a note before approving or revising</label>
+            <textarea
+              id="human-review-notes"
+              rows={2}
+              maxLength={4000}
+              value={notes}
+              onChange={(event) => setNotes(event.target.value)}
+              placeholder="Challenge an assumption, ask for a wider perspective, or request revision…"
+            />
+            <div className="human-review-buttons">
+              <button
+                className="cream-button"
+                type="button"
+                disabled={busy}
+                onClick={() => onReview("approve", "")}
+              >
+                Approve <Arrow />
+              </button>
+              <button
+                className="outline-button"
+                type="button"
+                disabled={busy || !notes.trim()}
+                onClick={() => onReview("revise", notes.trim())}
+              >
+                Revise with my note <Arrow />
+              </button>
+            </div>
+          </div>
+        </section>
       )}
     </main>
   );
