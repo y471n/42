@@ -47,7 +47,7 @@ class ApiTest(unittest.TestCase):
     def test_threads_are_listed_and_follow_ups_persist_across_restart(self):
         from api import create_app
         from langgraph.checkpoint.sqlite import SqliteSaver
-        from museum.graph import build_graph
+        from fortytwo.graph import build_graph
         from test_graph import FakeEmbeddings, FakeModel
 
         class FollowUpModel(FakeModel):
@@ -112,7 +112,7 @@ class ApiTest(unittest.TestCase):
     def test_single_question_clarification_survives_restart(self):
         from api import create_app
         from langgraph.checkpoint.sqlite import SqliteSaver
-        from museum.graph import build_graph
+        from fortytwo.graph import build_graph
         from test_graph import FakeEmbeddings, FakeModel
 
         class ClarifyingModel(FakeModel):
@@ -173,7 +173,7 @@ class ApiTest(unittest.TestCase):
     def test_api_uses_real_checkpointed_graph(self):
         from api import create_app
         from langgraph.checkpoint.sqlite import SqliteSaver
-        from museum.graph import build_graph
+        from fortytwo.graph import build_graph
         from test_graph import FakeEmbeddings, FakeModel
 
         def search(query):
@@ -198,7 +198,7 @@ class ApiTest(unittest.TestCase):
     def test_trace_shows_nested_work_and_survives_approval(self):
         from api import create_app
         from langgraph.checkpoint.sqlite import SqliteSaver
-        from museum.graph import build_graph
+        from fortytwo.graph import build_graph
         from test_graph import FakeEmbeddings, FakeModel
 
         class ContinueModel(FakeModel):

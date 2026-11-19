@@ -2,13 +2,13 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from museum.library import index_library
+from fortytwo.library import index_library
 from test_library import LocalEmbeddings, write_pdf
 
 
 class LocalResearchTest(unittest.TestCase):
     def test_explicit_thinker_missing_from_local_sources_triggers_targeted_search(self):
-        from museum.research import build_research_graph
+        from fortytwo.research import build_research_graph
 
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -38,7 +38,7 @@ class LocalResearchTest(unittest.TestCase):
             self.assertTrue(any("Friedrich Nietzsche" in query for query in queries))
 
     def test_changed_pdf_is_not_served_as_if_it_matched_the_index(self):
-        from museum.library import search_library
+        from fortytwo.library import search_library
 
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -53,7 +53,7 @@ class LocalResearchTest(unittest.TestCase):
                 search_library(database, "freedom", LocalEmbeddings())
 
     def test_one_author_mentioning_other_thinkers_does_not_skip_web_search(self):
-        from museum.research import build_research_graph
+        from fortytwo.research import build_research_graph
 
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -82,7 +82,7 @@ class LocalResearchTest(unittest.TestCase):
             self.assertTrue(queries)
 
     def test_sufficient_local_passages_skip_web_search(self):
-        from museum.research import build_research_graph
+        from fortytwo.research import build_research_graph
 
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -109,7 +109,7 @@ class LocalResearchTest(unittest.TestCase):
             self.assertTrue(all(source["id"].startswith("L") for source in result["evidence"]))
 
     def test_weak_local_evidence_is_kept_and_supplemented_without_private_queries(self):
-        from museum.research import build_research_graph
+        from fortytwo.research import build_research_graph
 
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

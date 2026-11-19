@@ -1,4 +1,4 @@
-"""Local FastAPI wrapper around the checkpointed museum graph."""
+"""Local FastAPI wrapper around the checkpointed 42 graph."""
 
 import json
 import logging
@@ -19,8 +19,8 @@ from langgraph.checkpoint.sqlite import SqliteSaver
 from langgraph.types import Command
 from pydantic import BaseModel, StringConstraints, model_validator
 
-from museum.graph import build_graph, save_exhibit
-from museum.trace import describe_event
+from fortytwo.graph import build_graph, save_exhibit
+from fortytwo.trace import describe_event
 
 
 LOG = logging.getLogger(__name__)
@@ -105,13 +105,13 @@ def create_app(root: Path = DATA_DIR, graph_factory=None, exhibits_dir: Path | N
                 db.execute("ALTER TABLE sessions ADD COLUMN question TEXT")
             db.execute("CREATE TABLE IF NOT EXISTS trace_events (id INTEGER PRIMARY KEY AUTOINCREMENT, session_id TEXT NOT NULL, event TEXT NOT NULL)")
             db.execute("UPDATE sessions SET status='error', error='The server restarted while this run was active. Start a new session.' WHERE status='running'")
-        app.state.executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix="museum")
+        app.state.executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix="fortytwo")
         try:
             yield
         finally:
             app.state.executor.shutdown(wait=True)
 
-    app = FastAPI(title="Museum of Unchosen Lives", lifespan=lifespan)
+    app = FastAPI(title="42", lifespan=lifespan)
     app.add_middleware(TrustedHostMiddleware, allowed_hosts=["localhost", "127.0.0.1"])
     app.add_middleware(CORSMiddleware, allow_origins=list(ORIGINS), allow_methods=["GET", "POST"], allow_headers=["Content-Type"])
 

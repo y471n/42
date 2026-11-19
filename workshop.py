@@ -1,7 +1,7 @@
 import sys
 
 from langgraph.types import Command
-from museum.graph import build_graph
+from fortytwo.graph import build_graph
 
 question = " ".join(sys.argv[1:]) or "What makes a life meaningful?"
 graph = build_graph()

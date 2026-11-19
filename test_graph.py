@@ -40,9 +40,9 @@ class FakeModel:
         return Runner()
 
 
-class MuseumTest(unittest.TestCase):
+class FortyTwoTest(unittest.TestCase):
     def test_general_question_discusses_without_requiring_paths_or_futures(self):
-        from unchosen_lives import build_graph
+        from forty_two import build_graph
 
         class GeneralModel(FakeModel):
             def with_structured_output(self, schema):
@@ -71,7 +71,7 @@ class MuseumTest(unittest.TestCase):
         self.assertIn("What makes a life meaningful?", result["exhibit"])
 
     def test_general_question_review_revises_the_discussion(self):
-        from unchosen_lives import build_graph
+        from forty_two import build_graph
 
         class GeneralModel(FakeModel):
             def with_structured_output(self, schema):
@@ -103,7 +103,7 @@ class MuseumTest(unittest.TestCase):
         self.assertNotIn("future_a", revised)
 
     def test_general_question_critic_reports_concerns_for_human_review(self):
-        from museum.trace import describe_event
+        from fortytwo.trace import describe_event
 
         event = describe_event((), "critic", {
             "revision_round": 1, "automatic_revision": False,
@@ -112,7 +112,7 @@ class MuseumTest(unittest.TestCase):
         self.assertIn({"label": "Decision", "value": "Concerns for human review"}, event["details"])
 
     def test_follow_up_continues_prior_roundtable_and_returns_to_review(self):
-        from unchosen_lives import build_graph
+        from forty_two import build_graph
 
         calls = []
 
@@ -157,7 +157,7 @@ class MuseumTest(unittest.TestCase):
         self.assertTrue(messages[-1]["turns"])
 
     def test_primary_source_author_aliases_are_discoverable(self):
-        from museum.research import discover_thinkers
+        from fortytwo.research import discover_thinkers
 
         evidence = [{"id": "L1", "title": "Benedict Spinoza and David Hume", "url": "/local",
                      "content": "Michel de Montaigne and Sophie de Grouchy."}]
@@ -165,7 +165,7 @@ class MuseumTest(unittest.TestCase):
                         <= set(discover_thinkers(evidence)))
 
     def test_follow_up_researches_a_new_explicit_thinker(self):
-        from unchosen_lives import build_graph
+        from forty_two import build_graph
 
         class FollowUpModel(FakeModel):
             def with_structured_output(self, schema):
@@ -195,7 +195,7 @@ class MuseumTest(unittest.TestCase):
         self.assertTrue(any("Friedrich Nietzsche" in query for query in queries))
 
     def test_single_question_pauses_for_clarification_and_resumes(self):
-        from unchosen_lives import build_graph
+        from forty_two import build_graph
 
         class ClarifyingModel(FakeModel):
             def with_structured_output(self, schema):
@@ -225,7 +225,7 @@ class MuseumTest(unittest.TestCase):
         self.assertIn("What should I do?", result["exhibit"])
 
     def test_discovers_philosophers_from_different_traditions(self):
-        from museum.research import discover_thinkers
+        from fortytwo.research import discover_thinkers
 
         evidence = [{"id": "S1", "title": "Perspectives", "url": "https://example.org",
                      "content": "Confucius, bell hooks, Mary Wollstonecraft, and Rabindranath Tagore wrote about life and society."}]
@@ -234,7 +234,7 @@ class MuseumTest(unittest.TestCase):
         self.assertNotIn("Aristotle", thinkers)
 
     def test_discovers_common_spelling_variants_and_prioritizes_source_titles(self):
-        from museum.research import discover_thinkers
+        from fortytwo.research import discover_thinkers
 
         evidence = [{"id": "S1", "title": "Lao Tzu on change", "url": "https://example.org",
                      "content": "Soren Kierkegaard and Nagarjuna considered change."}]
@@ -243,7 +243,7 @@ class MuseumTest(unittest.TestCase):
         self.assertTrue({"Søren Kierkegaard", "Nāgārjuna"} <= set(thinkers))
 
     def test_quote_checks_reject_invented_and_unknown_sources(self):
-        from unchosen_lives import validate_citations
+        from forty_two import validate_citations
 
         evidence = [{"id": "S1", "content": "Freedom is a task that calls for responsibility."}]
         self.assertEqual(validate_citations([{"source_id": "S1", "quote": "Freedom is a task that calls for responsibility."}], evidence), [])
@@ -251,7 +251,7 @@ class MuseumTest(unittest.TestCase):
         self.assertTrue(validate_citations([{"source_id": "S99", "quote": "Freedom is a task that calls for responsibility."}], evidence))
 
     def test_research_queries_do_not_include_personal_text(self):
-        from unchosen_lives import search_queries
+        from forty_two import search_queries
 
         for round_number in (0, 1):
             queries = search_queries("career", round_number, ["Simone de Beauvoir", "PRIVATE_SECRET_NAME"])
@@ -260,7 +260,7 @@ class MuseumTest(unittest.TestCase):
         self.assertEqual(len(search_queries("career", 1, ["Aristotle"])), 2)
 
     def test_public_research_can_target_free_will_and_named_catalogued_thinkers(self):
-        from unchosen_lives import search_queries
+        from forty_two import search_queries
 
         self.assertTrue(any("free will" in query for query in search_queries("free_will", 0, [])))
         queries = search_queries("general", 0, ["Immanuel Kant", "PRIVATE_PERSON"])
@@ -268,7 +268,7 @@ class MuseumTest(unittest.TestCase):
         self.assertNotIn("PRIVATE_PERSON", " ".join(queries))
 
     def test_inline_quotation_must_have_a_verified_citation(self):
-        from unchosen_lives import validate_letter
+        from forty_two import validate_letter
 
         evidence = [{"id": "S1", "content": "Freedom is a task that calls for responsibility."}]
         letter = {"text": 'A source says "Freedom is a task that calls for responsibility."', "citations": []}
@@ -277,7 +277,7 @@ class MuseumTest(unittest.TestCase):
         self.assertEqual(validate_letter(letter, evidence), [])
 
     def test_research_retries_when_only_one_thinker_is_found(self):
-        from unchosen_lives import build_graph
+        from forty_two import build_graph
 
         def search(query):
             return [{"url": "https://example.org/a", "title": "Aristotle"},
@@ -293,7 +293,7 @@ class MuseumTest(unittest.TestCase):
         self.assertEqual(graph.get_state(config).values["research_round"], 2)
 
     def test_graph_interrupt_resume_and_weak_evidence(self):
-        from unchosen_lives import build_graph
+        from forty_two import build_graph
 
         queries = []
         def search(query):
@@ -317,7 +317,7 @@ class MuseumTest(unittest.TestCase):
         self.assertIn("https://example.org/beauvoir", result["exhibit"])
 
     def test_letters_receive_retrieved_passages_not_all_source_text(self):
-        from unchosen_lives import build_graph
+        from forty_two import build_graph
 
         class CheckedModel(FakeModel):
             def with_structured_output(self, schema):
@@ -340,7 +340,7 @@ class MuseumTest(unittest.TestCase):
         self.assertIn("__interrupt__", result)
 
     def test_revision_loop_is_bounded_and_invalid_quotes_are_not_published(self):
-        from unchosen_lives import build_graph
+        from forty_two import build_graph
 
         class FaultyModel(FakeModel):
             def with_structured_output(self, schema):
@@ -361,7 +361,7 @@ class MuseumTest(unittest.TestCase):
         self.assertIn("Unverified quotation", result["exhibit"])
 
     def test_roundtable_stops_early_or_after_four_turns(self):
-        from unchosen_lives import build_graph
+        from forty_two import build_graph
 
         class DiscussionModel(FakeModel):
             def __init__(self, ready):
@@ -396,7 +396,7 @@ class MuseumTest(unittest.TestCase):
                 self.assertIn("AI-generated interpretations", result["exhibit"])
 
     def test_roundtable_each_speaker_sees_every_earlier_turn(self):
-        from museum.roundtable import build_roundtable_graph
+        from fortytwo.roundtable import build_roundtable_graph
 
         calls = []
 
@@ -420,7 +420,7 @@ class MuseumTest(unittest.TestCase):
         ])
 
     def test_roundtable_caps_contributions_even_mid_round(self):
-        from museum.roundtable import build_roundtable_graph
+        from fortytwo.roundtable import build_roundtable_graph
 
         def ask(schema, instruction, data):
             if schema.__name__ == "Perspective":
@@ -439,7 +439,7 @@ class MuseumTest(unittest.TestCase):
 
     def test_sqlite_review_survives_reopen(self):
         from langgraph.checkpoint.sqlite import SqliteSaver
-        from unchosen_lives import build_graph
+        from forty_two import build_graph
 
         def search(query):
             return [{"url": "https://example.org/beauvoir", "title": "Simone de Beauvoir"}]
@@ -459,7 +459,7 @@ class MuseumTest(unittest.TestCase):
                 self.assertTrue(result["approved"])
 
     def test_revision_feedback_returns_to_review(self):
-        from unchosen_lives import build_graph
+        from forty_two import build_graph
 
         class RevisionModel(FakeModel):
             def with_structured_output(self, schema):
@@ -482,7 +482,7 @@ class MuseumTest(unittest.TestCase):
         self.assertTrue(graph.invoke(Command(resume={"action": "approve"}), config)["approved"])
 
     def test_roundtable_reports_partially_verified_citations_accurately(self):
-        from unchosen_lives import render_exhibit
+        from forty_two import render_exhibit
 
         source = {"id": "S1", "url": "https://example.org/a", "title": "Aristotle", "content": "Freedom is a task that calls for responsibility."}
         letter = {"text": "A fictional future.", "citations": []}
@@ -496,7 +496,7 @@ class MuseumTest(unittest.TestCase):
         self.assertNotIn("No verified supporting excerpt", report)
 
     def test_roundtable_flags_unverified_inline_quotes_even_with_valid_citation(self):
-        from museum.roundtable import build_roundtable_graph
+        from fortytwo.roundtable import build_roundtable_graph
 
         source = {"id": "S1", "title": "Aristotle and Immanuel Kant",
                   "url": "https://example.org", "content": "Freedom is a task that calls for responsibility."}
@@ -514,7 +514,7 @@ class MuseumTest(unittest.TestCase):
         self.assertTrue(all(turn["unverified"] for turn in result["discussion_turns"]))
 
     def test_saved_exhibit_is_visible_and_not_overwritten(self):
-        from unchosen_lives import save_exhibit
+        from forty_two import save_exhibit
 
         with tempfile.TemporaryDirectory() as directory:
             path = save_exhibit("First exhibit", "abc", Path(directory))

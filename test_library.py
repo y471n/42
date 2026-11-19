@@ -64,7 +64,7 @@ class LibraryTest(unittest.TestCase):
     def test_vectors_persist_in_chroma_and_support_semantic_search(self):
         import chromadb
         from chromadb.config import Settings
-        from museum.library import index_library, search_library
+        from fortytwo.library import index_library, search_library
 
         index_library(self.directory, self.database, LocalEmbeddings(), "test-model")
         vector_path = self.database.with_name(self.database.stem + "-vectors")
@@ -76,7 +76,7 @@ class LibraryTest(unittest.TestCase):
         self.assertTrue(any("The Will to Believe" in item["content"] for item in results))
 
     def test_semantic_results_come_from_chroma_not_legacy_sqlite_vectors(self):
-        from museum.library import index_library, search_library
+        from fortytwo.library import index_library, search_library
 
         index_library(self.directory, self.database, DirectionalEmbeddings(), "directional")
         with closing(sqlite3.connect(self.database)) as db:
@@ -87,7 +87,7 @@ class LibraryTest(unittest.TestCase):
 
     def test_failed_vector_write_preserves_previous_index(self):
         from chromadb.api.models.Collection import Collection
-        from museum.library import index_library, search_library
+        from fortytwo.library import index_library, search_library
 
         index_library(self.directory, self.database, LocalEmbeddings(), "test-model")
         original_pdf = self.pdf.read_bytes()
@@ -102,7 +102,7 @@ class LibraryTest(unittest.TestCase):
     def test_reindex_recovers_a_missing_chroma_collection(self):
         import chromadb
         from chromadb.config import Settings
-        from museum.library import index_library, search_library
+        from fortytwo.library import index_library, search_library
 
         index_library(self.directory, self.database, LocalEmbeddings(), "test-model")
         vector_path = self.database.with_name(self.database.stem + "-vectors")
@@ -115,7 +115,7 @@ class LibraryTest(unittest.TestCase):
         self.assertTrue(search_library(self.database, "belief", LocalEmbeddings()))
 
     def test_removed_pdf_no_longer_appears_in_search(self):
-        from museum.library import index_library, search_library
+        from fortytwo.library import index_library, search_library
 
         write_pdf(self.directory / "another.pdf", ["Another source about choice"])
         index_library(self.directory, self.database, LocalEmbeddings(), "test-model")
@@ -126,7 +126,7 @@ class LibraryTest(unittest.TestCase):
         self.assertTrue(all(result["path"] == "another.pdf" for result in results))
 
     def test_existing_sqlite_index_is_migrated_without_erasing_it_first(self):
-        from museum.library import INDEX_VERSION, SCHEMA, index_library, search_library
+        from fortytwo.library import INDEX_VERSION, SCHEMA, index_library, search_library
 
         with closing(sqlite3.connect(self.database)) as db, db:
             db.executescript(SCHEMA)
@@ -150,7 +150,7 @@ class LibraryTest(unittest.TestCase):
         self.assertTrue(search_library(self.database, "belief", LocalEmbeddings()))
 
     def test_indexes_pages_for_full_text_and_semantic_search_without_duplicates(self):
-        from museum.library import index_library
+        from fortytwo.library import index_library
 
         index_library(self.directory, self.database, LocalEmbeddings(), "test-model")
         with closing(sqlite3.connect(self.database)) as db:
@@ -174,7 +174,7 @@ class LibraryTest(unittest.TestCase):
             self.assertEqual(db.execute("SELECT COUNT(*) FROM chunks").fetchone()[0], original_count)
 
     def test_failed_reindex_preserves_existing_searchable_content(self):
-        from museum.library import index_library
+        from fortytwo.library import index_library
 
         index_library(self.directory, self.database, LocalEmbeddings(), "test-model")
         write_pdf(self.pdf, ["Groundwork for the Metaphysic of Morals by Immanuel Kant"])

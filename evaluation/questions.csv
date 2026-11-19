@@ -1,0 +1,10 @@
+id,question,kind,expected_routing,relevant_passages,reviewer_notes
+q01,"Does a meaningful life require freedom, or can duty alone make a life meaningful?",open,"general reflection; no future letters","kant1785.pdf; mill1863.pdf","Exhibit shows roundtable and reflection but no Future A/B sections."
+q02,"Should I stay in my hometown or move to another city for work?",decision,"decision; two labeled fictional letters","montaigne1580book1.pdf; hume1739book2.pdf","Two letters clearly labeled fiction; inspect sources and warnings."
+q03,"What should I do?",vague,"clarification interrupt","n/a","Answer through /clarify; confirm the run continues and both paths appear."
+q04,"How does Kant define duty and freedom?",local-evidence,"local-only; no web search","kant1785.pdf","Trace shows local retrieval only; relevance and author-diversity checks pass."
+q05,"What do philosophers say about productivity and burnout in modern work?",web-supplement,"web queries supplement local evidence","mill1859.pdf; schopenhauer1818.pdf","Trace contains broad web queries; no private phrasing from the question reaches Tavily."
+q06,"Is courage a virtue according to Aristotle?",citation-check,"any routing; inspect citations","SOURCES.txt; one selected PDF passage","Open the source and compare the cited passage with the interpretation; exact text match does not establish attribution or context."
+q07,"Follow-up on q02: what about regret?",lifecycle,"follow-up from review or approved","q02","Ask a follow-up, request a revision, approve, reopen the thread; original future letters must not be regenerated."
+q08,"Start q01, then stop the API while the run is active",restart-active,"error after restart","n/a","GET status reports the 'server restarted while this run was active' error."
+q09,"Let q02 pause at review, then stop and restart the API",restart-paused,"review state survives; resume via /review","n/a","Same session ID resumes from its checkpoint and the exhibit is saved."

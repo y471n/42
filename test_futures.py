@@ -5,7 +5,7 @@ from langchain_core.messages import AIMessage
 from langchain_core.outputs import ChatGeneration, ChatResult
 from langchain_ollama import ChatOllama
 
-from museum.futures import build_futures
+from fortytwo.futures import build_futures
 
 
 class FutureTests(unittest.TestCase):
