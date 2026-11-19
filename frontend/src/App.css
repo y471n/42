@@ -1,0 +1,6 @@
+/* 7.4B placeholder — replaced by the full responsive stylesheet in 7.4C. */
+.site { display: grid; grid-template-columns: 240px minmax(0, 1fr); align-items: start; }
+.app-content { min-width: 0; }
+.thread-sidebar { padding: 16px; border-right: 1px solid #c4bdad; }
+.wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+textarea, input, button { font: inherit; }
