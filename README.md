@@ -274,6 +274,10 @@ agentic product should combine four things:
   <img src="docs/demo.gif" alt="42 interface demo" width="900">
 </p>
 
+<p align="center">
+  <a href="docs/demo.mp4"><strong>Watch the full 3:37 demo video</strong></a>
+</p>
+
 ## License
 
 Add a license file before publishing or accepting contributions. Until a license
