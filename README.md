@@ -1,11 +1,11 @@
 # 42
 
-### An agentic AI philosophy studio for thinking through life's difficult choices
+### An agentic AI philosophy studio for life's difficult choices
 
-**42** is a local-first decision-support application that combines LangGraph,
-retrieval-augmented generation, structured model outputs, and human-in-the-loop
-review. It turns a dilemma into grounded philosophical perspectives, contrasts
-possible futures, and saves a reviewed exhibit for reflection.
+**42** is a local-first decision-support studio. Not a chatbot in a toga: its
+LangGraph workflow combines local retrieval, structured outputs, citation
+validation, parallel future-letter subgraphs, and human review. Bring a dilemma;
+the council debates it, and you keep the final word.
 
 [![Python](https://img.shields.io/badge/Python-3.13-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-API-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
@@ -29,11 +29,10 @@ possible futures, and saves a reviewed exhibit for reflection.
 
 ---
 
-## Why 42 stands out
+## How the council thinks
 
-- **A real multi-stage agent system:** Uses conditional routing, subgraphs,
-  parallel future generation, structured outputs, interruptions, and resume
-  semantics rather than a single prompt.
+- **A multi-stage agent system:** Conditional routing, subgraphs, parallel future
+  generation, structured outputs, interruptions, and resumable state.
 - **Grounded, citation-aware responses:** Searches a local library first,
   validates that generated excerpts appear in retrieved passages, and falls
   back to web research only when local evidence is insufficient.
@@ -50,7 +49,7 @@ possible futures, and saves a reviewed exhibit for reflection.
   citations, checkpoints, follow-ups, restart recovery, local retrieval, and
   API file-safety behavior.
 
-## The experience
+## The council's proceedings
 
 1. **Share a question** — enter an open reflection or a choice with two paths.
 2. **Clarify when necessary** — the graph pauses if the question needs more context.
@@ -108,16 +107,16 @@ flowchart TD
 | `api.py` | Durable FastAPI sessions, trace events, follow-ups, and exhibit storage |
 | `frontend/` | React interface for live progress, review, follow-ups, and source browsing |
 
-## Engineering highlights
+## How it works
 
-### Agent orchestration
+### Orchestration
 
 The workflow is not a linear chatbot loop. LangGraph coordinates research,
 clarification, roundtable discussion, critic review, revision, exhibit curation,
 human approval, and follow-up branches. SQLite checkpointers preserve state,
 allowing paused conversations to resume after a restart.
 
-### Retrieval quality and safeguards
+### Sources and safeguards
 
 - Local passages are prioritized over web search.
 - Evidence is filtered for topical relevance and author diversity.
