@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 
-const SESSION_KEY = "unchosen-lives-session";
+const SESSION_KEY = "42-session";
 const traceNodes = [
   {
     group: "select_topic",
@@ -76,14 +76,14 @@ function Arrow({ diagonal = false }) {
 
 function Logo() {
   return (
-    <a className="brand" href="/" aria-label="The Unchosen Life, home">
+    <a className="brand" href="/" aria-label="42, home">
       <span className="brand-mark" aria-hidden="true">
-        u.
+        42
       </span>
       <span>
-        THE UNCHOSEN
+        FORTY
         <br />
-        LIFE<span className="brand-period">.</span>
+        TWO<span className="brand-period">.</span>
       </span>
     </a>
   );
@@ -172,7 +172,7 @@ function Landing({ onStart, busy, error }) {
         </div>
       </section>
 
-      <div className="museum-ribbon" aria-hidden="true">
+      <div className="fortytwo-ribbon" aria-hidden="true">
         <div>
           THINKING IS A CONTACT SPORT <span>✳</span> QUESTION EVERYTHING
           (INCLUDING THIS) <span>✳</span> THINKING IS A CONTACT SPORT{" "}
@@ -786,7 +786,7 @@ function downloadExhibit(session) {
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.download = `unchosen-life-${session.id}.md`;
+  link.download = `42-${session.id}.md`;
   link.click();
   URL.revokeObjectURL(url);
 }
