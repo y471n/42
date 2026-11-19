@@ -528,7 +528,10 @@ function Loading({ session, error, onRetry }) {
       </div>
       <section className="progress-card" aria-label="Latest activity">
         <div className="progress-top">
-          <span>THE LATEST / LIVE</span>
+          <span className="latest-live-loader" aria-label="Latest activity is updating">
+            <i aria-hidden="true" />
+            THE LATEST / LIVE
+          </span>
           <span>{events.length} EVENTS</span>
         </div>
         <p className="activity-intro">
@@ -542,7 +545,10 @@ function Loading({ session, error, onRetry }) {
       <section className="activity-timeline">
         <div className="activity-timeline-heading">
           <div>
-            <span className="section-index">THE RUNNING RECORD</span>
+            <span className="record-loader" aria-label="Process record is updating">
+              <i aria-hidden="true" />
+              THE RUNNING RECORD
+            </span>
             <h2>
               Notes from <em>the process.</em>
             </h2>
@@ -690,35 +696,54 @@ function LiveRoundtable({ events, running }) {
         aria-relevant="additions"
       >
         {discussion.length ? (
-          discussion.map((event) => (
-            <article
-              className={`live-turn ${event.node === "moderator" ? "live-moderator" : ""}`}
-              key={event.index}
-            >
-              {event.node === "philosopher" && (
-                <ThinkerPortrait
-                  name={detail(event, "Thinker") || event.title.replace(/^.*· /, "")}
-                  compact
-                />
-              )}
-              <p>
-                {detail(
-                  event,
-                  event.node === "philosopher"
-                    ? "Perspective"
-                    : event.node === "moderator"
-                      ? "Distillation"
-                      : "Reason",
+          discussion.map((event, position) => {
+            if (event.node === "moderator" || event.node === "skip") {
+              return (
+                <article
+                  className="live-turn live-moderator"
+                  key={event.index}
+                >
+                  <span className="moderator-seal" aria-hidden="true">✳</span>
+                  <div className="roundtable-speaker-label">
+                    <strong>THE MODERATOR</strong>
+                    <small>THE TABLE’S REFLECTION</small>
+                  </div>
+                  <p>
+                    {detail(
+                      event,
+                      event.node === "moderator" ? "Distillation" : "Reason",
+                    )}
+                  </p>
+                  {detail(event, "Decision") && (
+                    <small>{detail(event, "Decision")}</small>
+                  )}
+                </article>
+              );
+            }
+            const thinker =
+              detail(event, "Thinker") ||
+              event.title.replace(/^.*· /, "");
+            return (
+              <article
+                className={`live-turn roundtable-seat ${position % 2 ? "roundtable-seat-right" : "roundtable-seat-left"}`}
+                key={event.index}
+              >
+                <div className="roundtable-seat-person">
+                  <ThinkerPortrait name={thinker} compact />
+                  <div className="roundtable-speaker-label">
+                    <strong>{thinker}</strong>
+                    <small>SEAT {String(position + 1).padStart(2, "0")}</small>
+                  </div>
+                </div>
+                <p>
+                  {detail(event, "Perspective")}
+                </p>
+                {detail(event, "Verification") && (
+                  <small>{detail(event, "Verification")}</small>
                 )}
-              </p>
-              {detail(event, "Verification") && (
-                <small>{detail(event, "Verification")}</small>
-              )}
-              {detail(event, "Decision") && (
-                <small>{detail(event, "Decision")}</small>
-              )}
-            </article>
-          ))
+              </article>
+            );
+          })
         ) : (
           <p className="live-discussion-empty">
             {running
@@ -773,8 +798,9 @@ function TraceInspector({ trace, running = false }) {
       </div>
       {!running && <LiveRoundtable events={events} running={false} />}
       <div className="trace-legend">
-        <span>
-          <i /> RECORDED ACTIVITY
+        <span className="graph-loader" aria-label="Graph activity is updating">
+          <i aria-hidden="true" />
+          RECORDED ACTIVITY
         </span>
         <span>LANGGRAPH / LOCAL ORCHESTRATION</span>
       </div>
@@ -977,8 +1003,17 @@ function Exhibit({ session, onReview, onFollowUp, onNew, busy, error }) {
                   </p>
                 )}
                 {message.turns?.map((turn, i) => (
-                  <article className="turn" key={`${turn.thinker}-${i}`}>
-                    <ThinkerPortrait name={turn.thinker} />
+                  <article
+                    className={`turn roundtable-seat ${i % 2 ? "roundtable-seat-right" : "roundtable-seat-left"}`}
+                    key={`${turn.thinker}-${i}`}
+                  >
+                    <div className="roundtable-seat-person">
+                      <ThinkerPortrait name={turn.thinker} />
+                      <div className="roundtable-speaker-label">
+                        <strong>{turn.thinker}</strong>
+                        <small>SEAT {String(i + 1).padStart(2, "0")}</small>
+                      </div>
+                    </div>
                     <p>{turn.text}</p>
                     {turn.citations?.map((citation, j) => (
                       <Citation
@@ -996,7 +1031,7 @@ function Exhibit({ session, onReview, onFollowUp, onNew, busy, error }) {
                   </article>
                 ))}
                 {message.distillation && (
-                  <div className="distillation">
+                  <div className="distillation moderator-distillation">
                     <span className="section-index light-index">
                       THE MODERATOR’S REFLECTION
                     </span>
@@ -1010,10 +1045,16 @@ function Exhibit({ session, onReview, onFollowUp, onNew, busy, error }) {
           <div className="turns">
             {turns.map((turn, index) => (
               <article
-                className="turn"
+                className={`turn roundtable-seat ${index % 2 ? "roundtable-seat-right" : "roundtable-seat-left"}`}
                 key={`${turn.thinker}-${turn.round}-${index}`}
               >
-                <ThinkerPortrait name={turn.thinker} />
+                <div className="roundtable-seat-person">
+                  <ThinkerPortrait name={turn.thinker} />
+                  <div className="roundtable-speaker-label">
+                    <strong>{turn.thinker}</strong>
+                    <small>SEAT {String(index + 1).padStart(2, "0")}</small>
+                  </div>
+                </div>
                 <p>{turn.text}</p>
                 {turn.citations?.map((citation, i) => (
                   <Citation

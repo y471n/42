@@ -608,6 +608,7 @@ h2 em {
   justify-self: start;
 }
 .thread-messages {
+  position: relative;
   display: grid;
   gap: 22px;
 }
@@ -1018,6 +1019,23 @@ button:hover:not(:disabled) .button-arrow {
   padding-bottom: 20px;
   border-bottom: 1px solid #e9e1d5;
 }
+.latest-live-loader {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--rust);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+.latest-live-loader i {
+  width: 14px;
+  height: 14px;
+  border: 2px solid #cbbda9;
+  border-top-color: var(--rust);
+  border-radius: 50%;
+  animation: latest-spin 0.9s steps(8) infinite;
+}
 .activity-intro {
   margin: 18px 0 4px;
   color: var(--muted);
@@ -1077,6 +1095,24 @@ button:hover:not(:disabled) .button-arrow {
   gap: 25px;
   padding-bottom: 25px;
   border-bottom: 1px solid #e8dfd3;
+}
+.record-loader {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: #998777;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+.record-loader i {
+  width: 18px;
+  height: 18px;
+  border: 1px solid #bdb0a0;
+  border-radius: 50%;
+  background: repeating-conic-gradient(var(--rust) 0 8deg, transparent 8deg 24deg);
+  mask: radial-gradient(circle, transparent 0 5px, #000 6px);
+  animation: record-turn 3.2s linear infinite;
 }
 .activity-timeline-heading h2 {
   margin-top: 16px;
@@ -1166,6 +1202,25 @@ button:hover:not(:disabled) .button-arrow {
 .live-discussion {
   margin-top: 30px;
 }
+.live-discussion {
+  position: relative;
+  display: grid;
+  gap: 12px;
+}
+.live-discussion::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  top: 18px;
+  bottom: 18px;
+  width: 82%;
+  border: 1px dashed #9a7464;
+  border-radius: 50%;
+  transform: translateX(-50%) rotate(-2deg);
+  opacity: 0.5;
+  pointer-events: none;
+}
 .live-turn {
   display: grid;
   grid-template-columns: 48px minmax(0, 1fr);
@@ -1219,6 +1274,78 @@ button:hover:not(:disabled) .button-arrow {
   background: #533a36;
   border: 0;
 }
+.live-turn.roundtable-seat {
+  position: relative;
+  z-index: 1;
+  grid-template-columns: 64px minmax(0, 1fr);
+  max-width: 78%;
+  align-items: start;
+  padding: 14px 16px;
+  background: #f4ecde;
+  color: var(--ink);
+  border: 1.5px solid #d8caba;
+  box-shadow: 5px 5px 0 rgba(216, 170, 140, 0.25);
+  transform: rotate(-0.5deg);
+}
+.live-turn.roundtable-seat-right {
+  justify-self: end;
+  transform: rotate(0.6deg);
+}
+.live-turn.roundtable-seat-left {
+  justify-self: start;
+}
+.roundtable-seat-person {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  grid-row: 1 / 4;
+  grid-column: 1;
+  flex-direction: column;
+}
+.roundtable-speaker-label {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+  text-align: center;
+  text-transform: uppercase;
+}
+.roundtable-speaker-label strong {
+  max-width: 118px;
+  color: var(--ink);
+  font: 800 9px/1.1 var(--serif);
+  letter-spacing: 0.02em;
+}
+.roundtable-speaker-label small {
+  color: var(--rust);
+  font-size: 7px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+.live-turn.roundtable-seat > p {
+  grid-column: 2;
+  margin-top: 2px;
+  color: #4e463f;
+  font-size: 16px;
+  line-height: 1.55;
+}
+.live-turn.roundtable-seat > small {
+  grid-column: 2;
+  color: #876e61;
+}
+.moderator-seal {
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-content: center;
+  background: var(--rust);
+  color: #fff4e5;
+  border: 2px solid #fff4e5;
+  border-radius: 50%;
+  transform: translateY(-50%) rotate(-8deg);
+}
 .live-moderator p {
   font-style: italic;
 }
@@ -1246,6 +1373,14 @@ button:hover:not(:disabled) .button-arrow {
   height: 7px;
   border-radius: 50%;
   background: var(--rust);
+}
+.graph-loader i {
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--rust);
+  border-radius: 50%;
+  box-shadow: 7px 0 0 -3px #e9e1d4, 7px 0 0 -2px #9a806f;
+  animation: graph-pulse 1.4s var(--ease) infinite;
 }
 .trace-graph {
   display: grid;
@@ -1546,7 +1681,30 @@ button:hover:not(:disabled) .button-arrow {
   line-height: 1.8;
 }
 .turns {
+  position: relative;
+  display: grid;
+  gap: 14px;
   margin-top: 65px;
+}
+.turns::before,
+.thread-messages::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  top: 25px;
+  bottom: 25px;
+  width: 88%;
+  border: 1px dashed #9a7464;
+  border-radius: 50%;
+  transform: translateX(-50%) rotate(-1deg);
+  opacity: 0.45;
+  pointer-events: none;
+}
+.turns > *,
+.thread-messages > * {
+  position: relative;
+  z-index: 1;
 }
 .turn {
   display: grid;
@@ -1554,6 +1712,45 @@ button:hover:not(:disabled) .button-arrow {
   column-gap: 16px;
   border-top: 1px solid #73564e;
   padding: 26px 0 34px;
+}
+.turn.roundtable-seat {
+  position: relative;
+  grid-template-columns: 78px minmax(0, 1fr);
+  max-width: 82%;
+  border: 0;
+  border-radius: 2px;
+  background: #f4ecde;
+  color: var(--ink);
+  padding: 18px 20px;
+  box-shadow: 7px 7px 0 rgba(216, 170, 140, 0.22);
+  transform: rotate(-0.35deg);
+}
+.turn.roundtable-seat-right {
+  justify-self: end;
+  transform: rotate(0.45deg);
+}
+.turn.roundtable-seat-left {
+  justify-self: start;
+}
+.turn.roundtable-seat .roundtable-seat-person {
+  grid-row: 1 / 5;
+  flex-direction: column;
+  align-items: center;
+}
+.turn.roundtable-seat > p {
+  grid-column: 2;
+  margin-top: 0;
+  color: #4e463f;
+  font-size: 19px;
+}
+.moderator-distillation {
+  position: relative;
+  max-width: 94%;
+  margin: 28px auto 12px;
+  padding: 18px 22px;
+  background: #533a36;
+  border: 1px dashed #c69a84;
+  transform: rotate(-0.5deg);
 }
 .turn > .thinker-portrait {
   grid-row: 1 / 5;
@@ -1772,6 +1969,21 @@ button:hover:not(:disabled) .button-arrow {
 @keyframes step-pulse {
   to {
     opacity: 0.35;
+  }
+}
+@keyframes latest-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes record-turn {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+@keyframes graph-pulse {
+  50% {
+    box-shadow: 12px 0 0 -3px #e9e1d4, 12px 0 0 -2px var(--rust);
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -1996,6 +2208,16 @@ button:hover:not(:disabled) .button-arrow {
   }
   .live-turn-meta {
     font-size: 8px;
+  }
+  .live-turn.roundtable-seat,
+  .turn.roundtable-seat {
+    max-width: 96%;
+  }
+  .live-turn.roundtable-seat {
+    grid-template-columns: 56px minmax(0, 1fr);
+  }
+  .turn.roundtable-seat {
+    grid-template-columns: 60px minmax(0, 1fr);
   }
   .trace-legend {
     flex-direction: column;
