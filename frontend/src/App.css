@@ -1277,19 +1277,18 @@ button:hover:not(:disabled) .button-arrow {
 .live-turn.roundtable-seat {
   position: relative;
   z-index: 1;
-  grid-template-columns: 64px minmax(0, 1fr);
-  max-width: 78%;
+  grid-template-columns: 48px minmax(0, 1fr);
+  max-width: 86%;
   align-items: start;
-  padding: 14px 16px;
-  background: #f4ecde;
-  color: var(--ink);
-  border: 1.5px solid #d8caba;
-  box-shadow: 5px 5px 0 rgba(216, 170, 140, 0.25);
-  transform: rotate(-0.5deg);
+  padding: 18px 0;
+  background: transparent;
+  color: #f3eade;
+  border: 0;
+  border-top: 1px solid #73564e;
+  box-shadow: none;
 }
 .live-turn.roundtable-seat-right {
   justify-self: end;
-  transform: rotate(0.6deg);
 }
 .live-turn.roundtable-seat-left {
   justify-self: start;
@@ -1297,7 +1296,7 @@ button:hover:not(:disabled) .button-arrow {
 .roundtable-seat-person {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 7px;
   grid-row: 1 / 4;
   grid-column: 1;
   flex-direction: column;
@@ -1311,7 +1310,7 @@ button:hover:not(:disabled) .button-arrow {
 }
 .roundtable-speaker-label strong {
   max-width: 118px;
-  color: var(--ink);
+  color: #d5ad95;
   font: 800 9px/1.1 var(--serif);
   letter-spacing: 0.02em;
 }
@@ -1324,7 +1323,7 @@ button:hover:not(:disabled) .button-arrow {
 .live-turn.roundtable-seat > p {
   grid-column: 2;
   margin-top: 2px;
-  color: #4e463f;
+  color: #f3eade;
   font-size: 16px;
   line-height: 1.55;
 }
@@ -1715,19 +1714,19 @@ button:hover:not(:disabled) .button-arrow {
 }
 .turn.roundtable-seat {
   position: relative;
-  grid-template-columns: 78px minmax(0, 1fr);
-  max-width: 82%;
+  grid-template-columns: 48px minmax(0, 1fr);
+  max-width: 86%;
   border: 0;
-  border-radius: 2px;
-  background: #f4ecde;
-  color: var(--ink);
-  padding: 18px 20px;
-  box-shadow: 7px 7px 0 rgba(216, 170, 140, 0.22);
-  transform: rotate(-0.35deg);
+  border-top: 1px solid #73564e;
+  border-radius: 0;
+  background: transparent;
+  color: #f1e7db;
+  padding: 26px 0 34px;
+  box-shadow: none;
+  transform: none;
 }
 .turn.roundtable-seat-right {
   justify-self: end;
-  transform: rotate(0.45deg);
 }
 .turn.roundtable-seat-left {
   justify-self: start;
@@ -1740,7 +1739,7 @@ button:hover:not(:disabled) .button-arrow {
 .turn.roundtable-seat > p {
   grid-column: 2;
   margin-top: 0;
-  color: #4e463f;
+  color: #f1e7db;
   font-size: 19px;
 }
 .moderator-distillation {
