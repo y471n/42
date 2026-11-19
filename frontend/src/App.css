@@ -1277,21 +1277,39 @@ button:hover:not(:disabled) .button-arrow {
 .live-turn.roundtable-seat {
   position: relative;
   z-index: 1;
-  grid-template-columns: 48px minmax(0, 1fr);
-  max-width: 86%;
+  grid-template-columns: 92px minmax(0, 1fr);
+  max-width: 82%;
   align-items: start;
-  padding: 18px 0;
-  background: transparent;
-  color: #f3eade;
-  border: 0;
-  border-top: 1px solid #73564e;
-  box-shadow: none;
+  padding: 22px;
+  background: #f4ede0;
+  color: var(--ink);
+  border: 1px solid #c3ad96;
+  box-shadow: 9px 9px 0 rgba(216, 170, 140, 0.16);
 }
 .live-turn.roundtable-seat-right {
   justify-self: end;
+  margin-right: 4%;
+  transform: rotate(0.7deg);
 }
 .live-turn.roundtable-seat-left {
   justify-self: start;
+  margin-left: 4%;
+  transform: rotate(-0.7deg);
+}
+.live-turn.roundtable-seat .roundtable-seat-person {
+  grid-row: 1 / 5;
+}
+.live-turn.roundtable-seat .roundtable-speaker-label {
+  order: -1;
+  width: 92px;
+  margin-bottom: 8px;
+}
+.live-turn.roundtable-seat .thinker-portrait {
+  width: 58px;
+  height: 58px;
+  border: 2px solid #5b493e;
+  box-shadow: 4px 4px 0 #c49a7f;
+  transform: rotate(3deg);
 }
 .roundtable-seat-person {
   display: flex;
@@ -1309,10 +1327,11 @@ button:hover:not(:disabled) .button-arrow {
   text-transform: uppercase;
 }
 .roundtable-speaker-label strong {
-  max-width: 118px;
+  max-width: 92px;
   color: #d5ad95;
   font: 800 9px/1.1 var(--serif);
   letter-spacing: 0.02em;
+  overflow-wrap: anywhere;
 }
 .roundtable-speaker-label small {
   color: var(--rust);
@@ -1322,14 +1341,14 @@ button:hover:not(:disabled) .button-arrow {
 }
 .live-turn.roundtable-seat > p {
   grid-column: 2;
-  margin-top: 2px;
-  color: #f3eade;
+  margin-top: 0;
+  color: var(--ink);
   font-size: 16px;
   line-height: 1.55;
 }
 .live-turn.roundtable-seat > small {
   grid-column: 2;
-  color: #876e61;
+  color: #756256;
 }
 .moderator-seal {
   position: absolute;
@@ -1568,6 +1587,9 @@ button:hover:not(:disabled) .button-arrow {
 .exhibit-page {
   padding-bottom: 110px;
 }
+.exhibit-page-reviewing {
+  padding-bottom: 260px;
+}
 .exhibit-heading {
   padding: 100px 0 115px;
   text-align: center;
@@ -1592,20 +1614,22 @@ button:hover:not(:disabled) .button-arrow {
   margin-right: 7px;
 }
 .human-review-dock {
-  position: sticky;
+  position: fixed;
   z-index: 20;
-  top: 12px;
+  left: 50%;
+  bottom: 16px;
+  width: min(calc(100% - 32px), 1120px);
   display: grid;
   grid-template-columns: 0.75fr 1.25fr;
   gap: 28px;
   align-items: end;
-  margin: -45px 0 55px;
+  margin: 0;
   padding: 24px 28px;
   background: #a05c43;
   color: #fff8f1;
   border: 2px solid #49352f;
   box-shadow: 8px 8px 0 #d4c8b6;
-  transform: rotate(-0.25deg);
+  transform: rotate(-0.25deg) translateX(-50%);
 }
 .human-review-dock-heading h2 {
   margin-top: 10px;
@@ -1764,22 +1788,24 @@ button:hover:not(:disabled) .button-arrow {
 }
 .turn.roundtable-seat {
   position: relative;
-  grid-template-columns: 48px minmax(0, 1fr);
-  max-width: 86%;
-  border: 0;
-  border: 1px solid #73564e;
+  grid-template-columns: 92px minmax(0, 1fr);
+  max-width: 82%;
+  border: 1px solid #c3ad96;
   border-radius: 0;
-  background: #483533;
-  color: #f1e7db;
-  padding: 20px 22px;
-  box-shadow: 7px 7px 0 rgba(216, 170, 140, 0.16);
-  transform: none;
+  background: #f4ede0;
+  color: var(--ink);
+  padding: 22px;
+  box-shadow: 9px 9px 0 rgba(216, 170, 140, 0.16);
 }
 .turn.roundtable-seat-right {
   justify-self: end;
+  margin-right: 4%;
+  transform: rotate(0.7deg);
 }
 .turn.roundtable-seat-left {
   justify-self: start;
+  margin-left: 4%;
+  transform: rotate(-0.7deg);
 }
 .turn.roundtable-seat .roundtable-seat-person {
   grid-row: 1 / 5;
@@ -1788,22 +1814,39 @@ button:hover:not(:disabled) .button-arrow {
 }
 .turn.roundtable-seat .roundtable-seat-person .roundtable-speaker-label {
   order: -1;
-  width: 118px;
-  margin-bottom: 10px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid #73564e;
+  width: 92px;
+  margin-bottom: 8px;
+  text-align: center;
 }
 .turn.roundtable-seat .thinker-portrait {
-  width: 52px;
-  height: 52px;
-  border-color: #d5ad95;
-  box-shadow: 3px 3px 0 #2a2723;
+  width: 58px;
+  height: 58px;
+  border: 2px solid #5b493e;
+  box-shadow: 4px 4px 0 #c49a7f;
+  transform: rotate(3deg);
 }
 .turn.roundtable-seat > p {
   grid-column: 2;
   margin-top: 0;
-  color: #f1e7db;
-  font-size: 19px;
+  color: var(--ink);
+  font-size: 18px;
+  line-height: 1.6;
+}
+.turn.roundtable-seat .roundtable-speaker-label strong {
+  color: #7f4937;
+  max-width: 92px;
+  font-size: 9px;
+  overflow-wrap: anywhere;
+}
+.turn.roundtable-seat .roundtable-speaker-label small {
+  color: #9a7464;
+}
+.turn.roundtable-seat > .citation {
+  color: #756256;
+  border-color: #b57d5f;
+}
+.turn.roundtable-seat > .citation a {
+  color: #9b4934;
 }
 .moderator-distillation {
   position: relative;
@@ -2096,6 +2139,21 @@ button:hover:not(:disabled) .button-arrow {
   }
 }
 @media (max-width: 650px) {
+  .live-turn.roundtable-seat,
+  .turn.roundtable-seat {
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    transform: none;
+  }
+  .live-turn.roundtable-seat-right,
+  .turn.roundtable-seat-right {
+    margin-right: 0;
+  }
+  .live-turn.roundtable-seat-left,
+  .turn.roundtable-seat-left {
+    margin-left: 0;
+  }
   .wrap {
     width: calc(100% - 36px);
   }
@@ -2273,13 +2331,17 @@ button:hover:not(:disabled) .button-arrow {
   }
   .live-turn.roundtable-seat,
   .turn.roundtable-seat {
-    max-width: 96%;
+    max-width: 92%;
+    margin-left: 2%;
+    margin-right: 2%;
   }
   .live-turn.roundtable-seat {
-    grid-template-columns: 56px minmax(0, 1fr);
+    grid-template-columns: 76px minmax(0, 1fr);
+    padding: 16px;
   }
   .turn.roundtable-seat {
-    grid-template-columns: 60px minmax(0, 1fr);
+    grid-template-columns: 76px minmax(0, 1fr);
+    padding: 16px;
   }
   .trace-legend {
     flex-direction: column;
@@ -2308,11 +2370,21 @@ button:hover:not(:disabled) .button-arrow {
     padding: 70px 0 75px;
   }
   .human-review-dock {
-    position: relative;
-    top: auto;
+    position: fixed;
+    left: 50%;
+    bottom: 8px;
+    width: calc(100% - 16px);
     grid-template-columns: 1fr;
-    margin: -20px 0 40px;
-    padding: 20px;
+    gap: 8px;
+    margin: 0;
+    padding: 12px;
+    transform: rotate(-0.15deg) translateX(-50%);
+  }
+  .human-review-dock-heading h2 {
+    display: none;
+  }
+  .human-review-dock-actions textarea {
+    min-height: 54px;
   }
   .exhibit-section-title,
   .roundtable-header {
