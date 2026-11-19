@@ -268,6 +268,12 @@ agentic product should combine four things:
 3. Persistent state and human checkpoints
 4. Sources and limitations that users can inspect
 
+## Demo
+
+<p align="center">
+  <img src="docs/demo.gif" alt="42 interface demo" width="900">
+</p>
+
 ## License
 
 Add a license file before publishing or accepting contributions. Until a license
